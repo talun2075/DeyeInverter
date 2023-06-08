@@ -1,0 +1,172 @@
+
+#Content {
+    max-width: 500px;
+    height: 100%;
+    margin: auto;
+}
+
+#ContentTable {
+    width: 100%;
+    height: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+    #ContentTable > * {
+        display: table-cell;
+    }
+
+.datadiv {
+    height: 25%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.homedatadiv {
+    width: 100%;
+}
+    .homedatadiv > img {
+        width: 100%;
+    }
+.innerflowdiv {
+    display: inline-flex;
+}
+.flowdiv {
+    height: 25%;
+    width: 100%;
+}
+
+#TableRow2 {
+    vertical-align: middle;
+}
+
+.trow {
+    width: 40%;
+    height: 500px;
+}
+
+.trowMiddle {
+    width: 20%;
+    height: 500px;
+}
+
+.dataimage {
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+}
+
+    .dataimage > img {
+        height: inherit;
+        width: inherit;
+    }
+.erroractive {
+    width: 80%;
+    text-align: center;
+    background-color: gray;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    height: auto;
+    border-radius: 25px;
+    box-shadow: 10px 5px 5px red;
+    min-height: 25px;
+}
+.datatext {
+    background-color: grey;
+    position: relative;
+    top: -60%;
+    color: white;
+    text-align: center;
+    border-radius: 25px;
+}
+
+#Additionalinfos {
+    margin-top: 30px;
+    border-top: 3px dotted grey;
+}
+.innerflowdiv {
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+}
+.pvin {
+    transform: rotate(305deg);
+    position: relative;
+    left: 100%;
+}
+.batin {
+    transform: rotate(45deg);
+    position: relative;
+    left: 65%;
+    top: 45%;
+}
+.batout {
+    transform: rotate(225deg);
+    position: relative;
+    left: 100%;
+    bottom: 10%;
+}
+.gridin {
+    transform: rotate(45deg);
+    position: relative;
+    left: 10%;
+}
+.gridout {
+    position: relative;
+    left: 20%;
+    transform: rotate(225deg);
+    bottom: 30%;
+}
+.usein {
+    transform: rotate(305deg);
+    position: relative;
+    left: 40%;
+    top: 40%;
+}
+.additionalinfosWrapper{
+    margin-top: 5px;
+}
+    .additionalinfosWrapper > DIV:not(:first-child) {
+        margin-left: 50px;
+    }
+    .additionalinfosWrapper > DIV:first-child {
+        font-weight: 600;
+        padding-bottom: 10px;
+        padding-top: 5px;
+    }
+/*Arrows*/
+.arrow span {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-bottom: 5px solid black;
+    border-right: 5px solid grey;
+    transform: rotate(45deg);
+    margin: -10px;
+    animation: animate 2s infinite;
+}
+
+.arrow span:nth-child(2) {
+    animation-delay: -0.2s;
+}
+
+.arrow span:nth-child(3) {
+    animation-delay: -0.4s;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+        transform: rotate(45deg) translate(-20px, -20px);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: rotate(45deg) translate(20px, 20px);
+    }
+}

@@ -1,0 +1,159 @@
+﻿@{
+    DeyeDto pv = ViewBag.PV;
+    LanguageOptions lang = ViewBag.Language;
+    var pvpower = "";
+    var gridpower = "";
+    var batpower = "";
+    var usepower = "";
+    var csspv = "arrow pvin";
+    var cssbat = "arrow batout";
+    var cssgrid = "arrow gridin";
+    var csserror = "";
+    var thump = "&#128077;";
+    if (pv.Deye.State == ModbusWrapper.Enums.DeyeState.NotSet)
+    {
+        csspv = "";
+        cssbat = "";
+        cssgrid = "";
+    }
+    else
+    {
+        if (!pv.Deye.PowerOn)
+        {
+            thump = "&#128078;";
+        }
+
+        if (pv.Photovoltaics.TotalCurrentPower > 999)
+        {
+            pvpower = Math.Round((Convert.ToDecimal(pv.Photovoltaics.TotalCurrentPower) / 1000), 2) + "kwh";
+        }
+        else
+        {
+            pvpower = pv.Photovoltaics.TotalCurrentPower + "w";
+        }
+        if(pv.Photovoltaics.TotalCurrentPower < 10)
+        {
+            csspv = "";
+        }
+        if (pv.Battery.CurrentPower < 0)
+        {
+            cssbat = "arrow batin";
+        }
+        if(pv.Battery.CurrentPower > -1 && pv.Battery.CurrentPower < 20)
+        {
+            cssbat = "";
+        }
+        if (pv.Battery.CurrentPower > 999 || pv.Battery.CurrentPower < -999)
+        {
+            batpower = Math.Round((Convert.ToDecimal(pv.Battery.CurrentPower) / 1000), 2) + "kwh";
+        }
+        else
+        {
+            batpower = pv.Battery.CurrentPower + "w";
+        }
+        if(pv.Grid.GridCurrent < 0)
+        {
+            cssgrid = "arrow gridout";
+        }
+        if(pv.Grid.GridCurrent < 20 && pv.Grid.GridCurrent >-1)
+        {
+            cssgrid = "";
+        }
+        if (pv.Grid.GridCurrent > 999 || pv.Grid.GridCurrent <-999)
+        {
+            gridpower = Math.Round((Convert.ToDecimal(pv.Grid.GridCurrent) / 1000), 2) + "kwh";
+        }
+        else
+        {
+            gridpower = pv.Grid.GridCurrent + "w";
+        }
+        if (pv.HomeUse.Current > 999)
+        {
+            usepower = Math.Round((Convert.ToDecimal(pv.HomeUse.Current) / 1000), 2) + "kwh";
+        }
+        else
+        {
+            usepower = pv.HomeUse.Current + "w";
+        }
+    }
+    if (!string.IsNullOrEmpty(pv.CommunicationErrors))
+    {
+        csserror = "erroractive";
+    }
+    
+
+}
+@if(pv.Deye.State == ModbusWrapper.Enums.DeyeState.NotSet)            {
+                <script>
+                    location.reload();
+                </script>
+            }
+<div id="Bodydiv">
+    <div id="Errors" class="@csserror">@pv.CommunicationErrors</div>
+    <div id="Content">
+        <div id="ContentTable">
+            <div id="TableRow1" class="trow">
+                <div id="PVData" class="datadiv"><div class="dataimage"><img src="/images/pv.svg" /></div><div class="datatext">@lang.Production: @pvpower </div></div>
+                <div id="PVFlow" class="flowdiv"><div class="innerflowdiv"><div class="@csspv"><span></span><span></span><span></span></div></div>
+                </div>
+                <div id="BatteryFlow" class="flowdiv">
+                    <div class="innerflowdiv">
+                        <div class="@cssbat"><span></span><span></span><span></span></div>    
+                    </div>
+                </div>
+                <div id="BatteryData" class="datadiv">
+                    <div class="dataimage"><img src="/images/bat.png" /></Div><div class="datatext">@lang.Battery: (@pv.Battery.FilledInPercent %): @batpower</div></div>
+            </div>
+            <div id="TableRow2" class="trowMiddle">
+                <div id="Home" class="homedatadiv"><img src="/images/deye.png" /></div>
+            </div>
+            <div id="TableRow3" class="trow">
+                <div id="GridData" class="datadiv"><div class="dataimage"><img src="/images/grid.svg" /></div><div class="datatext">@lang.Grid: @gridpower</div></div>
+                <div id="GridFlow" class="flowdiv">
+                    <div class="innerflowdiv">
+                        <div class="@cssgrid"><span></span><span></span><span></span></div>    
+                    </div>
+                </div>
+                <div id="PowerUseFlow" class="flowdiv">
+                    <div class="innerflowdiv">
+                        <div class="arrow usein"><span></span><span></span><span></span></div>    
+                    </div>
+                </div>
+                <div id="PowerUseData" class="datadiv"><div class="dataimage"><img src="/images/home.svg" /></div><div class="datatext">@lang.Consumption: @usepower</div></div>
+            </div>
+        </div>
+        <div id="Additionalinfos">
+            <div>
+                <div id="AdditionalinfosBattery" class="additionalinfosWrapper">
+                    <div>@lang.Battery</div>
+                    <div>@lang.Temperature: @pv.Battery.Temperatur</div>
+                </div>
+                <div id="AdditionalinfosInverter" class="additionalinfosWrapper">
+                    <div>@lang.Inverter</div>
+                    <div>@lang.State: @pv.Deye.State</div>
+                    <div>@lang.Temperature: @pv.Deye.InverterTemperature</div>
+                    <div>@lang.PowerOn: @Html.Raw(thump)</div>
+                </div>
+                <div id="AdditionalinfosPV" class="additionalinfosWrapper">
+                    <div>@lang.Photovoltaics @lang.Production</div>
+                    <div>@lang.ToDay: @Math.Round(pv.Photovoltaics.Daily*0.1,2) kwh</div>
+                    <div>@lang.Total: @Math.Round(pv.Photovoltaics.Total*0.1,2) kwh</div>
+                </div>
+                <div id="AdditionalinfosGrid" class="additionalinfosWrapper">
+                    <div>@lang.Grid</div>
+                    <div>@lang.Buy @lang.Total: @Math.Round(pv.Grid.TotalBuy*0.1,2) kwh</div>
+                    <div>@lang.Buy @lang.ToDay: @Math.Round(pv.Grid.DailyBuy*0.1,2) kwh</div>
+                    <div>@lang.Sell @lang.Total: @Math.Round(pv.Grid.TotalSell*0.1,2) kwh</div>
+                    <div>@lang.Sell @lang.ToDay: @Math.Round(pv.Grid.DailySell*0.1,2) kwh</div>
+                </div>
+                <div id="AdditionalinfosHome" class="additionalinfosWrapper">
+                    <div>@lang.Consumption</div>
+                    <div>@lang.Total: @Math.Round(pv.HomeUse.Total*0.1,2) kwh</div>
+                    <div>@lang.ToDay: @Math.Round(pv.HomeUse.Daily*0.1,2) kwh</div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
