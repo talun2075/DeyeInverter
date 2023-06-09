@@ -70,7 +70,8 @@ namespace ModbusWrapper
 
 
                     //Grid
-                    retval.Grid.GridCurrent = master.ReadHoldingRegister(1, 607);
+                    var gridcurrent = master.ReadHoldingRegister(1, 607);
+                    retval.Grid.GridCurrent = gridcurrent - ((gridcurrent > 32767) ? 65536 : 0);//convert to signed int
                     retval.Grid.DailyBuy = master.ReadHoldingRegister(1, 520);
                     retval.Grid.DailySell = master.ReadHoldingRegister(1, 521);
                     retval.Grid.TotalBuy = master.ReadHoldingRegister(1, 522);
