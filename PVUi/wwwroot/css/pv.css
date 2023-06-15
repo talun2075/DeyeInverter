@@ -114,7 +114,7 @@
 }
 .gridout {
     position: relative;
-    left: 30%;
+    left: 50%;
     transform: rotate(225deg);
     bottom: 60%;
 }
